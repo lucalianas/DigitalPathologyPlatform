@@ -65,7 +65,8 @@ INSTALLED_APPS = (
     'utils',
     'questionnaires_manager',
     'shared_datasets_manager',
-    'predictions_manager'
+    'predictions_manager',
+    'lab_manager'
 )
 
 MIDDLEWARE = (
