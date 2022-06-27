@@ -18,10 +18,12 @@
 #  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 from django.db import models
+from django.contrib.contenttypes.fields import GenericRelation
 from django.contrib.auth.models import User
 from slides_manager.models import Slide
 from reviews_manager.models import ROIsAnnotationStep
 from predictions_manager.models import TissueFragmentsCollection
+from lab_manager.models import LabNote
 
 
 class Slice(models.Model):
@@ -37,6 +39,7 @@ class Slice(models.Model):
     total_cores = models.IntegerField(blank=False, default=0)
     source_collection = models.ForeignKey(TissueFragmentsCollection, on_delete=models.PROTECT, blank=False,
                                           null=True, default=None, related_name='slices')
+    notes = GenericRelation(LabNote)
 
     class Meta:
         unique_together = ('label', 'annotation_step')
@@ -82,6 +85,7 @@ class Core(models.Model):
     tumor_length = models.FloatField(blank=True, null=True)
     source_collection = models.ForeignKey(TissueFragmentsCollection, on_delete=models.PROTECT, blank=False,
                                           null=True, default=None, related_name='cores')
+    notes = GenericRelation(LabNote)
 
     class Meta:
         unique_together = ('label', 'slice')
@@ -131,6 +135,7 @@ class FocusRegion(models.Model):
     tissue_status = models.CharField(max_length=8, choices=TISSUE_STATUS_CHOICES, blank=False)
     source_collection = models.ForeignKey(TissueFragmentsCollection, on_delete=models.PROTECT, blank=False,
                                           null=True, default=None, related_name='focus_regions')
+    notes = GenericRelation(LabNote)
 
     class Meta:
         unique_together = ('label', 'core')
