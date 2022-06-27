@@ -36,6 +36,7 @@ from rois_manager.views import SliceList, SliceDetail, CoreList, \
 from clinical_annotations_manager.views import AnnotatedROIsTreeList, ClinicalAnnotationStepAnnotationsList, \
     SliceAnnotationList, SliceAnnotationDetail, CoreAnnotationList, CoreAnnotationDetail, \
     FocusRegionAnnotationList, FocusRegionAnnotationDetail
+import lab_manager.views as lmv
 import predictions_manager.views as pmv
 import shared_datasets_manager.views as shdv
 import odin.views as od
@@ -72,9 +73,20 @@ class RandomSlideLabel:
         return value
 
 
+class ROIType:
+     regex = r'slice|core|focus_region'
+     
+     def to_python(self, value):
+          return value
+     
+     def to_url(self, value):
+          return value
+
+
 register_converter(NumericString, 'num')
 register_converter(RandomCaseLabel, 'rclabel')
 register_converter(RandomSlideLabel, 'rslabel')
+register_converter(ROIType, 'roi_type')
 
 urlpatterns = [
     # authentication
@@ -195,7 +207,12 @@ urlpatterns = [
     path(
         'api/clinical_annotations/<slug:case>/<slug:reviewer>/<num:rois_review>/<slug:slide>/',
         rmv.ClinicalAnnotationStepCreation.as_view()),
-    
+
+    # laboratory notes
+    path(
+         'api/lab_notes/<rslabel:step_label>/<roi_type:roi_type>/<num:roi_id>/',
+         lmv.LabNoteList.as_view()),
+
     # predictions reviews
     path('api/prediction_reviews/', rmv.PredictionReviewsList.as_view()),
     path('api/prediction_reviews/<slug:slide>/', rmv.PredictionReviewsDetail.as_view()),
