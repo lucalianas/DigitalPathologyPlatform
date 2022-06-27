@@ -240,6 +240,9 @@ DEFAULT_GROUPS = {
     },
     'prediction_manager': {
         'name': cfg['promort_groups']['prediction_manager']['name']
+    },
+    'lab_manager': {
+        'name': cfg['promort_groups']['lab_manager']['name']
     }
 }
 

@@ -40,6 +40,8 @@ promort_groups:
     name: ODIN_USERS
   prediction_manager:
     name: PREDICTION_MANAGERS
+  lab_manager:
+    name: LAB_MANAGERS
 
 ome_seadragon:
   base_url: http://localhost:8080/ome_seadragon/
